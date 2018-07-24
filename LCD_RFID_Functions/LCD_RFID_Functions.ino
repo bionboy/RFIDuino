@@ -1,0 +1,97 @@
+/*
+  LiquidCrystal Library - Hello World
+
+ Demonstrates the use a 16x2 LCD display.  The LiquidCrystal
+ library works with all LCD displays that are compatible with the
+ Hitachi HD44780 driver. There are many of them out there, and you
+ can usually tell them by the 16-pin interface.
+
+ This sketch prints "Hello World!" to the LCD
+ and shows the time.
+
+  The circuit:
+ * LCD RS pin to digital pin 2
+ * LCD Enable pin to digital pin 3
+ * LCD D4 pin to digital pin 4
+ * LCD D5 pin to digital pin 5
+ * LCD D6 pin to digital pin 6
+ * LCD D7 pin to digital pin 7
+ * LCD R/W pin to ground
+ * LCD VSS pin to ground
+ * LCD VCC pin to 5V
+ 
+ 
+ This example code is in the public domain.
+
+ http://www.arduino.cc/en/Tutorial/LiquidCrystalHelloWorld
+
+*/
+
+// include the library code:
+#include <LiquidCrystal.h>
+
+// initialize the library by associating any needed LCD interface pin
+// with the arduino pin number it is connected to
+const int rs = 2, en = 3, d4 = 4, d5 = 5, d6 = 6, d7 = 7;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+
+void LCD_Read_Wait(){
+  lcd.clear();
+  lcd.print("Click button to");
+  lcd.setCursor(0,1);
+  lcd.print("read card.");
+  delay(2000);
+}
+
+void LCD_RW_Ready(String s){ //s should be either "read" or "write"
+  lcd.clear();
+  lcd.print("Ready to " + s);
+  lcd.setCursor(0,1);
+  lcd.print("card.");
+  delay(2000);
+}
+
+void LCD_Busy(){
+  lcd.clear();
+  lcd.print("Card Detected.");
+  lcd.setCursor(0,1);
+  lcd.print("Do not remove!");
+  delay(2000);
+}
+
+void LCD_Write_Wait(){
+  lcd.clear();
+  lcd.print("Success! Click");
+  lcd.setCursor(0,1);
+  lcd.print("button to write.");
+  delay(2000);
+}
+
+void LCD_Write_Done(){
+  lcd.clear();
+  lcd.print("Success");
+  delay(2000);
+}
+
+void setup() {
+  // set up the LCD's number of columns and rows:
+  lcd.begin(16, 2);
+  // Print a message to the LCD.
+  lcd.print("Group 2 rocks!");
+}
+
+void loop() {
+
+  LCD_Read_Wait();
+  LCD_RW_Ready("read");
+  LCD_Busy();
+  LCD_Write_Wait();
+  LCD_RW_Ready("write");
+  LCD_Busy();
+  LCD_Write_Done();
+}
+
+
+
+
+
