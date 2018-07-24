@@ -19,11 +19,6 @@
  * LCD R/W pin to ground
  * LCD VSS pin to ground
  * LCD VCC pin to 5V
- 
- 
- This example code is in the public domain.
-
- http://www.arduino.cc/en/Tutorial/LiquidCrystalHelloWorld
 
 */
 
@@ -43,11 +38,11 @@ void LCD_Read_Wait(){
   delay(2000);
 }
 
-void LCD_RW_Ready(String s){ //s should be either "read" or "write"
+void LCD_RW_Ready(){
   lcd.clear();
-  lcd.print("Ready to " + s);
+  lcd.print("Place card);
   lcd.setCursor(0,1);
-  lcd.print("card.");
+  lcd.print("on sensor.");
   delay(2000);
 }
 
@@ -61,7 +56,7 @@ void LCD_Busy(){
 
 void LCD_Write_Wait(){
   lcd.clear();
-  lcd.print("Success! Click");
+  lcd.print("Copied! Click");
   lcd.setCursor(0,1);
   lcd.print("button to write.");
   delay(2000);
@@ -69,7 +64,9 @@ void LCD_Write_Wait(){
 
 void LCD_Write_Done(){
   lcd.clear();
-  lcd.print("Success");
+  lcd.print("Successfully");
+  lcd.setCursor(0,1);
+  lcd.print("wrote to card.");
   delay(2000);
 }
 
