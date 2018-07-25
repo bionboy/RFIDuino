@@ -77,7 +77,7 @@ void LCD_Display_Data(byte buff[]){
     lcd.write(buff[i]);
   }
   lcd.setCursor(0,1);
-  lcd.print("Click to continue");
+  lcd.print("Click to write.");
 }
 
 //

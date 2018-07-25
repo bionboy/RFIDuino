@@ -65,7 +65,8 @@ void loop()
   ResetScanner();
   
   LCD_Write_Done();
-  while(digitalRead(buttonPin) == LOW) delay(10);
+  //while(digitalRead(buttonPin) == LOW) delay(10); //uncomment this line to wait for buttonpress to continue
+  delay(2500);
 }
 
 bool CardFound()
