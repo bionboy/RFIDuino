@@ -3,8 +3,8 @@
 
 #define RST_PIN 9
 #define SS_PIN 10
-#define RLED 2
-#define GLED 3
+#define RLED 7
+#define GLED 8
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 MFRC522::MIFARE_Key key;
