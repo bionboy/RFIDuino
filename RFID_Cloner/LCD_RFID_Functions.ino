@@ -40,7 +40,7 @@ void LCD_Read_Wait(){
 
 void LCD_RW_Ready(){
   lcd.clear();
-  lcd.print("Place card);
+  lcd.print("Place card");
   lcd.setCursor(0,1);
   lcd.print("on sensor.");
   delay(2000);
@@ -70,23 +70,23 @@ void LCD_Write_Done(){
   delay(2000);
 }
 
-void setup() {
-  // set up the LCD's number of columns and rows:
-  lcd.begin(16, 2);
-  // Print a message to the LCD.
-  lcd.print("Group 2 rocks!");
-}
+//void setup() {
+//  // set up the LCD's number of columns and rows:
+//  lcd.begin(16, 2);
+//  // Print a message to the LCD.
+//  lcd.print("Group 2 rocks!");
+//}
 
-void loop() {
-
-  LCD_Read_Wait();
-  LCD_RW_Ready("read");
-  LCD_Busy();
-  LCD_Write_Wait();
-  LCD_RW_Ready("write");
-  LCD_Busy();
-  LCD_Write_Done();
-}
+//void loop() {
+//
+//  LCD_Read_Wait();
+//  LCD_RW_Ready("read");
+//  LCD_Busy();
+//  LCD_Write_Wait();
+//  LCD_RW_Ready("write");
+//  LCD_Busy();
+//  LCD_Write_Done();
+//}
 
 
 

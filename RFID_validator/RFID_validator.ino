@@ -7,6 +7,8 @@
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 MFRC522::MIFARE_Key key;
 
+byte password[16] = {};
+
 void setup()
 {
   Serial.begin(9600);
@@ -21,15 +23,19 @@ void setup()
 
 void loop()
 { 
-  if (!CardFound()) return;
+  mfrc522.PICC_HaltA();
+  mfrc522.PCD_StopCrypto1();
+  delay(500);
+  
+  while(!CardFound()) delay(250);
 
   byte block = 1;
   byte len;
   
   Serial.print("Data: ");
 
-  byte dataBuffer[18]; // = {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4};
-
+  byte dataBuffer[18];
+  
   if (mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, 1, &key, &(mfrc522.uid))
     != MFRC522::STATUS_OK)
   {
@@ -37,25 +43,34 @@ void loop()
     return;
   }
 
-//  if (status = mfrc522.MIFARE_Write(block, dataBuffer, 16) != MFRC522::STATUS_OK)
+  // READ DATA
   if (mfrc522.MIFARE_Read(block, dataBuffer, &len) != MFRC522::STATUS_OK)
   {
     Serial.print("Reading failed: ");
     return;
   }
 
-  //PRINT DATA (Use Serial.Write to print as ASCII)
+  // PRINT DATA
   for (uint8_t i = 0; i < 16; i++)
   {
-    Serial.print(dataBuffer[i]);
+    Serial.write(dataBuffer[i]);
     Serial.print(" ");
   }
   Serial.println();
 
-  delay(500);
 
-  mfrc522.PICC_HaltA();
-  mfrc522.PCD_StopCrypto1();
+  // CHECK DATA and respond
+  for (uint8_t i = 0; i < 16; i++)
+  {
+    if (dataBuffer[i] != password[i])
+    {
+      WRONG_KEY();
+      return;
+    }
+  }
+  
+
+  
 }
 
 bool CardFound()
