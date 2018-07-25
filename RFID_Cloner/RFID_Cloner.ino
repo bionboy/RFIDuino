@@ -1,8 +1,14 @@
 #include <SPI.h>
 #include <MFRC522.h>
+#include <LiquidCrystal.h>
 
 #define RST_PIN 9
 #define SS_PIN 10
+
+#define buttonPin 8
+
+const int rs = 2, en = 3, d4 = 4, d5 = 5, d6 = 6, d7 = 7;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 byte block;
 byte dataBuffer[18];
@@ -19,22 +25,48 @@ void setup() {
   for (byte i = 0; i < 6; i++) key.keyByte[i] = 0xFF;
   len = sizeof(dataBuffer);
   block = 1;
+
+  pinMode(buttonPin, INPUT);
+
+  lcd.begin(16,2);
+  lcd.clear();
+  
   Serial.println("Ready to write data");
 }
 
 void loop()
 {
-  if (!CardFound()) return;
+  LCD_Read_Wait();
+  while(digitalRead(buttonPin) == LOW) delay(10);
+
+  LCD_RW_Ready();
+  
+  while (!CardFound())delay(250);
+  LCD_Busy();
 
   // Reset data buffer
   for (int i = 0; i < len; i++) dataBuffer[i] = 0;
 
   ReadCard();
-  delay(2000);
   ResetScanner();
+
+  LCD_Display_Data(dataBuffer);
+  while(digitalRead(buttonPin) == LOW) delay(10);
+  
+//  LCD_Write_Wait();
+//  while(digitalRead(buttonPin) == LOW) delay(250);
+
+  LCD_RW_Ready();
+  
   while (!CardFound())delay(250);
+  LCD_Busy();
+  
   if (!WriteCard()) Serial.println("Failed to write, start over.");
   ResetScanner();
+  
+  LCD_Write_Done();
+  //while(digitalRead(buttonPin) == LOW) delay(10); //uncomment this line to wait for buttonpress to continue
+  delay(2500);
 }
 
 bool CardFound()
