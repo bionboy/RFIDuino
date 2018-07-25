@@ -3,14 +3,21 @@
 
 #define RST_PIN 9
 #define SS_PIN 10
+#define RLED 2
+#define GLED 3
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 MFRC522::MIFARE_Key key;
 
-byte password[16] = {};
+byte password[16] = {'p','o','o','p',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '};
 
 void setup()
 {
+  pinMode(RLED, OUTPUT);
+  pinMode(GLED, OUTPUT);
+  digitalWrite(RLED, HIGH);
+  digitalWrite(GLED, HIGH);
+  
   Serial.begin(9600);
   SPI.begin();
   mfrc522.PCD_Init();
@@ -18,7 +25,10 @@ void setup()
   // Init keys to 0xFF (Factory default)
   for (byte i = 0; i < 6; i++) key.keyByte[i] = 0xFF;
 
-  Serial.println("Ready to read");  
+  Serial.println("Ready to read");
+  
+  digitalWrite(RLED, LOW);
+  digitalWrite(GLED, LOW);
 }
 
 void loop()
@@ -58,7 +68,6 @@ void loop()
   }
   Serial.println();
 
-
   // CHECK DATA and respond
   for (uint8_t i = 0; i < 16; i++)
   {
@@ -68,9 +77,7 @@ void loop()
       return;
     }
   }
-  
-
-  
+  CORRECT_KEY();
 }
 
 bool CardFound()
@@ -80,5 +87,25 @@ bool CardFound()
   if (!mfrc522.PICC_ReadCardSerial()) return false;
   Serial.println("**Card Detected:**");
   return true;
+}
+
+void WRONG_KEY()
+{
+  
+  digitalWrite(RLED, HIGH);
+  digitalWrite(GLED, LOW);
+  delay(1000);
+  digitalWrite(RLED, LOW);
+  digitalWrite(GLED, LOW);
+}
+
+void CORRECT_KEY()
+{
+  
+  digitalWrite(RLED, LOW);
+  digitalWrite(GLED, HIGH);
+  delay(1000);
+  digitalWrite(RLED, LOW);
+  digitalWrite(GLED, LOW);
 }
 
