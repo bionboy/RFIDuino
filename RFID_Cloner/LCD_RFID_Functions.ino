@@ -79,27 +79,3 @@ void LCD_Display_Data(byte buff[]){
   lcd.setCursor(0,1);
   lcd.print("Click to write.");
 }
-
-//
-//void setup() {
-//  // set up the LCD's number of columns and rows:
-//  lcd.begin(16, 2);
-//  // Print a message to the LCD.
-//  lcd.print("Group 2 rocks!");
-//}
-//
-//void loop() {
-//
-//  LCD_Read_Wait();
-//  LCD_RW_Ready();
-//  LCD_Busy();
-//  LCD_Write_Wait();
-//  LCD_RW_Ready();
-//  LCD_Busy();
-//  LCD_Write_Done();
-//}
-
-
-
-
-
