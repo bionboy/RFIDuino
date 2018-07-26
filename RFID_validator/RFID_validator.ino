@@ -9,7 +9,7 @@
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 MFRC522::MIFARE_Key key;
 
-byte password[16] = {'p','o','o','p',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '};
+byte password[16] = {'h','u','n','t','e','r','2',' ',' ',' ',' ',' ',' ',' ',' ',' '};
 
 void setup()
 {
