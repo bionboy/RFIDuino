@@ -25,7 +25,7 @@ void setup()
   // Init keys to 0xFF (Factory default)
   for (byte i = 0; i < 6; i++) key.keyByte[i] = 0xFF;
 
-  Serial.println("Ready to read");
+  Serial.println("System locked");
   
   digitalWrite(RLED, LOW);
   digitalWrite(GLED, LOW);
@@ -85,7 +85,7 @@ bool CardFound()
   // Look for and select card
   if (!mfrc522.PICC_IsNewCardPresent()) return false;
   if (!mfrc522.PICC_ReadCardSerial()) return false;
-  Serial.println("**Card Detected:**");
+  Serial.print("**Card Detected:**\t");
   return true;
 }
 
@@ -107,5 +107,6 @@ void CORRECT_KEY()
   delay(1000);
   digitalWrite(RLED, LOW);
   digitalWrite(GLED, LOW);
+  Serial.println("System Unlocked!");
 }
 
